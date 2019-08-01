@@ -1,47 +1,48 @@
-<h1>PlayOn Coding Challenge</h1>
-
-<div class="table-options">
-  <div class="option-box">
-    <div class="form-group form-inline">
-      <label>State Association</label>
-      <select name="assocation" class="form-control" [(ngModel)]="assocationKey" (ngModelChange)="getData($event)">
-        <option *ngFor="let option of associationOptions; index as i" [value]="option.key">
-          {{ option.label }}
-        </option>
-      </select>
+<div id="home-component">
+  <div class="table-options">
+    <div class="option-box">
+      <div class="form-group form-inline">
+        <label>State Association</label>
+        <select name="assocation" class="form-control" [(ngModel)]="assocationKey" (ngModelChange)="getData($event)">
+          <option *ngFor="let option of associationOptions; index as i" [value]="option.key">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="option-box">
+      <div class="form-group form-inline">
+        <label>Filter By Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Start - End" class="form-control date-input" #drp="bsDaterangepicker" bsDaterangepicker [bsValue]="dateRange" [bsConfig]="datePickerConfig" (bsValueChange)="filterByDate($event)">
+          <div class="input-group-append">
+              <button type="button" class="btn btn-secondary" [disabled]="!dateRange" (click)="filterByDate(undefined)">Reset</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="option-box">
-    <div class="form-group form-inline">
-      <label>Filter By Date</label>
-      <input type="text" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRange" [bsConfig]="datePickerConfig" (bsValueChange)="filterByDate($event)">
-      <button type="button" class="btn btn-light" (click)="filterByDate([undefined, undefined])">Reset</button>
-    </div>
+  <div class="table-wrapper">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="key">Key</th>
+          <th scope="col" class="headline">Headline</th>
+          <th scope="col" class="subheadline">SubHeadline</th>
+          <th scope="col" class="time">Start Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let game of games">
+          <td class="key">{{ game.key }}</td>
+          <td class="headline">{{ game.headline | titlecase }}</td>
+          <td class="subheadline">{{ game.subheadline }}</td>
+          <td class="time">
+            <div class="start-date">{{ game.startDate | date: 'MMMM d, yyyy' }}</div>
+            <div class="start-time">{{ game.startDate | date: 'h:mm aa' }}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>
-
-<div class="table-wrapper">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Key</th>
-        <th scope="col">Headline</th>
-        <th scope="col">SubHeadline</th>
-        <th scope="col">Start Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let game of games; index as i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>
-          {{ game.key }}
-        </td>
-        <td>{{ game.headline | titlecase }}</td>
-        <td>{{ game.subheadline }}</td>
-        <td>{{ game.startDate | date: 'MMMM d yyyy h:m aa' }}
-        </td>
-      </tr>
-  </table>
-
 </div>

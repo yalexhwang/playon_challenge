@@ -12,9 +12,10 @@ export class DataService {
     { label: 'GHSA State Association', key: '18bad24aaa' },
     { label: 'Texas State Association (UIL)', key:'542bc38f95' }
   ];
+  dateRange: Date[];
   private items: Game[];
   private itemsSubject: Subject<Game[]> = new Subject();
-  private dateRange: number[] = [undefined, undefined];
+  
 
   constructor(
     private http: HttpClient
@@ -26,7 +27,6 @@ export class DataService {
 
   fetch(key: string): void {
     this.http.get(this.baseUrl + key).subscribe((data: any) => {
-      console.log(data);
       this.items = data.items.map((item: any) => {
         return {
           key: item.key,
@@ -35,28 +35,25 @@ export class DataService {
           startDate: new Date(item.start_time),
         };
       })
-      this.filterByDate();
-      // this.itemsSubject.next(this.items);
+      this.filterByDate(this.dateRange);
     });
   }
 
-  filterByDate(dateRange?: Date[]): void {
-    let start: number;
-    let end: number;
+  filterByDate(dateRange: Date[]): void {
+    this.dateRange = dateRange;
     if (dateRange) {
-      this.dateRange = [this.convertDate(dateRange[0]), this.convertDate(dateRange[1], true)];
-    }
-    if (this.dateRange[0] && this.dateRange[1]) {
+      const start: number = this.convertDate(dateRange[0]);
+      const end: number = this.convertDate(dateRange[1], true);
       this.itemsSubject.next(this.items.filter((item: Game) => {
         const gameTime: number = item.startDate.getTime();
-        return this.dateRange[0] <= gameTime && this.dateRange[1] > gameTime;
-      }));
+        return start <= gameTime && end > gameTime;
+      }));      
     } else {
       this.itemsSubject.next(this.items);
     }
   }
 
-  convertDate(date: Date, isEnd?: boolean): number {
+  private convertDate(date: Date, isEnd?: boolean): number {
     if (date) {
       if (isEnd) {
         const oneDay: number = 1000 * 60 * 60 * 24;

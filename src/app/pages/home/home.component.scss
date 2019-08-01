@@ -1,11 +1,30 @@
-.table-options {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    .option-box {
-        padding: 5px;
-        label {
-            margin-right: 10px;
+#home-component {
+    width: 90%;
+    max-width: 900px;
+    min-width: 700px;
+    margin: auto;
+    .table-options {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        margin: 40px 10px 0px 10px;
+        .option-box {
+            padding: 5px;
+            label {
+                margin-right: 10px;
+                margin-bottom: 5px;
+            }
+            .date-input {
+                min-width: 210px;
+            }
+        }
+    }
+    .table-wrapper {
+        padding: 20px;
+        table {
+            .time {
+            width: 200px;
+            }
         }
     }
 }

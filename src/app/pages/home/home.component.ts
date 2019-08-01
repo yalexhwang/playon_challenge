@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
   games: Game[];
   assocationKey: string;
   associationOptions: any[];
-  dateRange: Date[] = [];
+  dateRange: Date[];
   datePickerConfig: any = {
     containerClass: 'theme-red'
   };
@@ -21,11 +21,13 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dataSvc.itemSource.subscribe((data: Game[]) => this.games = data);
     this.associationOptions = this.dataSvc.associations;
     this.assocationKey = this.associationOptions[0].key;
+    this.dateRange = this.dataSvc.dateRange;
+    this.dataSvc.itemSource.subscribe((data: Game[]) => {
+      this.games = data;
+    });
     this.getData(this.assocationKey);
-    this.filterByDate(this.dateRange);
   }
 
   getData(key: string) {
@@ -33,6 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   filterByDate(range: Date[]) {
+    this.dateRange = range;
     this.dataSvc.filterByDate(range);
   }
 
