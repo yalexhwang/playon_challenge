@@ -1,0 +1,47 @@
+<h1>PlayOn Coding Challenge</h1>
+
+<div class="table-options">
+  <div class="option-box">
+    <div class="form-group form-inline">
+      <label>State Association</label>
+      <select name="assocation" class="form-control" [(ngModel)]="assocationKey" (ngModelChange)="getData($event)">
+        <option *ngFor="let option of associationOptions; index as i" [value]="option.key">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="option-box">
+    <div class="form-group form-inline">
+      <label>Filter By Date</label>
+      <input type="text" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRange" [bsConfig]="datePickerConfig" (bsValueChange)="filterByDate($event)">
+      <button type="button" class="btn btn-light" (click)="filterByDate([undefined, undefined])">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="table-wrapper">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Key</th>
+        <th scope="col">Headline</th>
+        <th scope="col">SubHeadline</th>
+        <th scope="col">Start Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let game of games; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>
+          {{ game.key }}
+        </td>
+        <td>{{ game.headline | titlecase }}</td>
+        <td>{{ game.subheadline }}</td>
+        <td>{{ game.startDate | date: 'MMMM d yyyy h:m aa' }}
+        </td>
+      </tr>
+  </table>
+
+</div>

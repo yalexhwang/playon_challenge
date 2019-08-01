@@ -1,0 +1,11 @@
+.table-options {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    .option-box {
+        padding: 5px;
+        label {
+            margin-right: 10px;
+        }
+    }
+}
