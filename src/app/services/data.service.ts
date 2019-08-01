@@ -31,7 +31,7 @@ export class DataService {
         return {
           key: item.key,
           headline: item.publishers[0].broadcasts[0].headline || 'TBD',
-          subheadline: item.publishers[0].broadcasts[0].subheadline || 'TBsD',
+          subheadline: item.publishers[0].broadcasts[0].subheadline || 'TBD',
           startDate: new Date(item.start_time),
         };
       })
